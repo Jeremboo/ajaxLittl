@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo AjaxLittl</title>
+</head>
+<body>
+	<h1>Demo AjaxLittl</h1>
+	<div id="content">Show console ;)</div>
+
+	<script src="../ajaxLittl.js"></script>
+	<script>
+		var ajaxLittl = new AjaxLittl();
+		ajaxLittl.request({url: "http://api.randomuser.me/"}, function(result){
+			if(result.success){
+				var data = result.data;
+				console.log("MY DATA :", data);
+			} else {
+				console.error(result.error);
+			}
+		});
+	</script>
+</body>
+
+</html>

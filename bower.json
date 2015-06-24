@@ -1,0 +1,20 @@
+{
+  "name": "ajaxLittl",
+  "main": "ajaxLittl.js",
+  "version": "1.0.0",
+  "authors": [
+    "Jeremie Boulay <jeremi.boulay@gmail.com>"
+  ],
+  "description": "Simple javascript library to make a ajax request with JSON and callback params",
+  "keywords": [
+    "ajax",
+    "javascript",
+    "request",
+    "json",
+    "callback"
+  ],
+  "license": "Apache2",
+  "ignore": [
+    "**/.*"
+  ]
+}
