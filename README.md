@@ -5,7 +5,7 @@ An personnal library for easy ajax request.
 
 ## How to install
 
-You can use bower : ``bower install ajax-littl``
+You can use bower : ``bower install ajaxLittl``
 
 You can also use gitHub : ``git clone https://github.com/Jeremboo/ajaxLittl``
 
