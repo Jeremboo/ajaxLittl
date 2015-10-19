@@ -12,13 +12,14 @@
 	<script>
 		var ajaxLittl = new AjaxLittl();
 		ajaxLittl.request({url: "http://api.randomuser.me/"}, function(result){
-			if(result.success){
-				var data = result.data;
-				console.log("MY DATA :", data);
-			} else {
-				console.error(result.error);
+				if(result.success){
+			      // make somethings with result.data
+			      console.log(result.data);
+			    } else {
+			      console.error("Error "+result.status+" : ", result.data);
+			    }
 			}
-		});
+		);
 	</script>
 </body>
 

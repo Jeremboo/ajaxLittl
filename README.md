@@ -20,11 +20,11 @@ If you want GET : :
 
 		ajaxLittl.request({url : "www.my-url.com/"}, function(result){
 			if(result.success){
-				var resultData = result.data;
-				// make somethings
-			} else {
-				console.log(result.error);
-			}	
+		        // make somethings with result.data
+		        console.log(result.data);
+		    } else {
+		        console.error("Error "+result.status+" : ", result.data);
+		    }
 		});
 
 If you want POST, add : 
@@ -32,10 +32,10 @@ If you want POST, add :
 		ajaxLittl.request({url : "www.my-url.com/", type : "POST", data : {name : "John Doe"}}, function(result){
 			if(result.success){
 				// you can receive data if exist
-				var resultData = result.data;
+			    console.log(result.data);
 				// make somethings
 			} else {
-				console.log(result.error);
+		        console.error("Error "+result.status+" : ", result.data);
 			}	
 		});
 

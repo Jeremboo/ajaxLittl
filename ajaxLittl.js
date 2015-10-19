@@ -1,5 +1,5 @@
 /**
- * ajaxLittl 1.0.0
+ * ajaxLittl 1.0.1
  * Apache 2.0 Licensing
  * Copyright (c) 2014 Jérémie Boulay <jeremi.boulay@gmail.com>
  * URL : https://github.com/Jeremboo/ajaxLittl
@@ -13,46 +13,57 @@ function AjaxLittl(){
 	'use_strict';
 
 	this.req = new XMLHttpRequest();
+	this.result = {
+    	success : true,
+		status : null,
+		data : null
+	}
+	this.callback = false;
 }
 
 AjaxLittl.prototype.request = function(params, callback){
 	'use_strict';
 
-	var result = {
-	    	success : false,
-			error : '',
-			data : null
-		},
-		dataSend = null || JSON.stringify(params.data),
-		type = "GET" || params.type
+	this.callback = callback || false;
+
+	var dataSend = JSON.stringify(params.data) || null,
+		type =  params.type || "GET"
 	;
 
 	if(params.url){
 		this.req.open(type, params.url, true);
+
 		if(type == "POST"){
-			this.req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			this.req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		}
+
 		this.req.send(dataSend);
 
 		this.req.onreadystatechange = function(e) {
 			if(this.req.readyState == 4){
-				if(this.req.status == 200){
-					result.success = true;
-					result.data = JSON.parse(this.req.response);
-				} else {
-					result.error = "ERROR "+this.req.status+".";				
+				var status = Math.floor(this.req.status/100);
+
+				this.result.status = this.req.status;
+				this.result.data = JSON.parse(this.req.response || this.req.responseText);
+				
+				if( status == 4 || status == 5 ){
+					this.result.success = false;
 				}
-				if(callback){
-					callback(result);
-				} 
+
+				this.callCallback();
 			}
 		}.bind(this);
 	} else {
-		result.error = "ERROR : you don't have 'url' argument";
-		if(callback){
-			callback(result);
-		} else {
-			console.error(result.error);
-		}
+		this.result.success = false;
+		this.result.data = "ERROR : you don't have 'url' argument";
+		this.callCallback();
+	}
+};
+
+AjaxLittl.prototype.callCallback = function() {
+	if(this.callback){
+		this.callback(this.result);
+	} else if(!this.result.success){
+		console.error(this.result.data);		
 	}
 };
