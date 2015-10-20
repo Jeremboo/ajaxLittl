@@ -1,5 +1,5 @@
 /**
- * ajaxLittl 1.2.0
+ * ajaxLittl 1.2.1
  * Apache 2.0 Licensing
  * Copyright (c) 2014 Jérémie Boulay <jeremi.boulay@gmail.com>
  * URL : https://github.com/Jeremboo/ajaxLittl
@@ -13,13 +13,14 @@ function AjaxLittl(){
 	'use_strict';
 
 	this.req = new XMLHttpRequest();
-	this.headers = {};
 	this.result = {
     	success : true,
 		status : null,
 		data : null
 	}
+	this.headers = {};
 	this.callback = false;
+
 }
 
 AjaxLittl.prototype.request = function(params, callback){
@@ -39,6 +40,7 @@ AjaxLittl.prototype.request = function(params, callback){
 		}
 		
 		if(this.headers){
+			var arr = Object.keys(this.headers);
 		    for (var i = 0 ; i < Object.keys(this.headers).length ; i++) {
 		      var k = arr[i];
 			  this.req.setRequestHeader(k, this.headers[k]);
