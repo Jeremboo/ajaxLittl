@@ -1,5 +1,5 @@
 /**
- * ajaxLittl 1.0.1
+ * ajaxLittl 1.2.0
  * Apache 2.0 Licensing
  * Copyright (c) 2014 Jérémie Boulay <jeremi.boulay@gmail.com>
  * URL : https://github.com/Jeremboo/ajaxLittl
@@ -13,6 +13,7 @@ function AjaxLittl(){
 	'use_strict';
 
 	this.req = new XMLHttpRequest();
+	this.headers = {};
 	this.result = {
     	success : true,
 		status : null,
@@ -33,8 +34,16 @@ AjaxLittl.prototype.request = function(params, callback){
 	if(params.url){
 		this.req.open(type, params.url, true);
 
-		if(type == "POST"){
-			this.req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		if(dataSend){
+			this.setHeader("Content-type", "application/x-www-form-urlencoded");
+		}
+		
+		if(this.headers){
+		    for (var i = 0 ; i < Object.keys(this.headers).length ; i++) {
+		      var k = arr[i];
+			  this.req.setRequestHeader(k, this.headers[k]);
+		    };
+		    this.headers = {};
 		}
 
 		this.req.send(dataSend);
@@ -44,7 +53,7 @@ AjaxLittl.prototype.request = function(params, callback){
 				var status = Math.floor(this.req.status/100);
 
 				this.result.status = this.req.status;
-				this.result.data = JSON.parse(this.req.response || this.req.responseText);
+				this.result.data = (this.req.response || this.req.responseText) ? JSON.parse(this.req.response || this.req.responseText) : false;
 				
 				if( status == 4 || status == 5 ){
 					this.result.success = false;
@@ -64,6 +73,12 @@ AjaxLittl.prototype.callCallback = function() {
 	if(this.callback){
 		this.callback(this.result);
 	} else if(!this.result.success){
-		console.error(this.result.data);		
+		console.error(this.result.data);
+	}
+};
+
+AjaxLittl.prototype.setHeader = function(key, value) {
+	if(!this.headers[key]){
+		this.headers[key] = value;
 	}
 };
